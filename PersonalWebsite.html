@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sannith Vanamala Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0b3d91;
+            --secondary-color: rgba(0, 0, 0, 0.6);
+            --accent-color: #ffcc00;
+            --font-primary: 'Orbitron', sans-serif;
+            --font-secondary: 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            background: #000;
+            color: #fff;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .stars div {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-color);
+            animation: shoot 5s infinite ease-in-out;
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+                transform: translate(100px, -100px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(300px, -300px) scale(0);
+            }
+        }
+
+        .intro {
+            color: var(--accent-color);
+            font-family: var(--font-primary);
+        }
+
+        .intro h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .intro p {
+            font-size: 1.5rem;
+            max-width: 800px;
+        }
+
+        .section-title {
+            font-family: var(--font-primary);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .skills ul, .projects ul {
+            list-style: none;
+            margin: 20px 0;
+            padding: 0;
+        }
+
+        .skills li, .projects li {
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .contact a {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .contact a:hover {
+            background: var(--accent-color);
+        }
+        
+        /* Name Text with Moving Outline Effect */
+        .name-container {
+            position: relative;
+            display: inline-block;
+            font-size: 4rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #ffcc00; /* Main text color */
+        }
+
+        .name-outline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(148, 141, 117, 0.7); /* Outline effect */
+            z-index: -1;
+            transition: transform 0.1s ease-out;
+        }
+        
+        .scroll-arrow {
+            position: absolute;
+            bottom: 20px;
+            font-size: 2rem;
+            color: var(--accent-color);
+            animation: bounce 2s infinite;
+        }
+
+        .about {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .about .section-title {
+            font-size: 2rem;
+        }
+        
+        .about .content {
+            max-width: 900px;
+            font-size: 1.5rem;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+        
+        .about p {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: #ddd;
+        }
+        
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars">
+        <!-- Stars will be dynamically added by script -->
+    </div>
+    <section class="intro">
+        <h1>Welcome to My Universe</h1>
+        <p>Exploring the cosmos of creativity, technology, and innovation.</p>
+        <br>
+        <div class="name-container">
+            <p>SANNITH VANAMALA</p>
+            <p class="name-outline">SANNITH VANAMALA</p>
+        </div>
+        <span class="scroll-arrow">&#8595;</span>
+    </section>
+
+    <section class="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="content">
+            <p>Fueled by a growing curiosity, I have a deep passion for engineering and creating new and exciting solutions. I have a deep desire for AI and its future, and I make a constant effort to explore and learn new things at all times. I wholeheartedly embrace new challenges, and I make a constant effort to develop my expertise and sharpen my skills. I'm fascinated with AI breakthroughs, and I'm eager to become a part of such a transformational journey. Read on to know me better!</p>
+        </div>
+    </section>
+    
+
+    <section class="projects">
+        <h2 class="section-title">Projects</h2>
+        <div class="content">
+            <ul>
+                <li><strong>TaskTrove:</strong> A platform connecting workers with demand.<a href="https://saneitt.github.io/TaskTrove/"> 🡥</a></li>
+                <li><strong>Sand Tetris:</strong> I made a pointless sand falling sim because it was fun.<a href="https://saneitt.github.io/Sand-falling-sim/"> 🡥</a></li>
+                <li><strong>Portfolio Website:</strong> This very site you're visiting!</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="skills">
+        <h2 class="section-title">Skills</h2>
+        <div class="content">
+            <ul>
+                <li>Python, Java, C, C++, Git, github</li>
+                <li>Web Development: HTML, CSS, JavaScript, ReactJS</li>
+                <li>AI and Machine Learning Basics</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="contact">
+        <h2 class="section-title">Contact Me</h2>
+        <div class="content">
+            <p>Feel free to reach out for collaborations, queries, or just to say hi!</p>
+            <a href="mailto:sannith.vanamala@gmail.com">Email Me</a>
+            <a href="https://github.com/Saneitt" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/sannith-vanamala-924822249/" target="_blank">LinkedIn</a>
+        </div>
+    </section>
+
+    <script>
+        // Generate stars dynamically
+        const starContainer = document.querySelector('.stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            starContainer.appendChild(star);
+        }
+
+        // Add a shooting star occasionally
+        setInterval(() => {
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            shootingStar.style.top = `${Math.random() * window.innerHeight}px`;
+            shootingStar.style.left = `${Math.random() * window.innerWidth}px`;
+            starContainer.appendChild(shootingStar);
+
+            setTimeout(() => {
+                shootingStar.remove();
+            }, 5000);
+        }, 5000);
+
+        // Adjust section opacity based on scroll position
+        const sections = document.querySelectorAll('section');
+        window.addEventListener('scroll', () => {
+            const viewportHeight = window.innerHeight;
+
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                const centerDistance = Math.abs(rect.top + rect.height / 2 - viewportHeight / 2);
+                const opacity = Math.max(0.3, 1 - centerDistance / (viewportHeight / 1.5));
+                section.style.opacity = opacity.toFixed(2);
+            });
+        });
+
+
+        // Mousemove event to move the outline
+        document.addEventListener("mousemove", (event) => {
+            const nameOutline = document.querySelector(".name-outline");
+
+            const { clientX: x, clientY: y } = event;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            const offsetX = (x - centerX) / 30;
+            const offsetY = (y - centerY) / 30;
+
+            nameOutline.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+        });
+
+
+    </script>
+</body>
+</html>
