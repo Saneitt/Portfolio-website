@@ -1,324 +1,226 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sannith Vanamala Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #0b3d91;
-            --secondary-color: rgba(0, 0, 0, 0.6);
-            --accent-color: #ffcc00;
-            --font-primary: 'Orbitron', sans-serif;
-            --font-secondary: 'Roboto', sans-serif;
-        }
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sannith Vanamala Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;family=Roboto:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-secondary);
-            background: #000;
-            color: #fff;
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            position: relative;
-            text-align: center;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .stars div {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: #fff;
-            border-radius: 50%;
-            animation: twinkle 3s infinite ease-in-out;
-        }
-
-        @keyframes twinkle {
-            0%, 100% {
-                opacity: 0.5;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-
-        .shooting-star {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-color);
-            animation: shoot 5s infinite ease-in-out;
-        }
-
-        @keyframes shoot {
-            0% {
-                transform: translate(0, 0) scale(0);
-                opacity: 0;
-            }
-            20% {
-                opacity: 1;
-                transform: translate(100px, -100px) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(300px, -300px) scale(0);
-            }
-        }
-
-        .intro {
-            color: var(--accent-color);
-            font-family: var(--font-primary);
-        }
-
-        .intro h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-        }
-
-        .intro p {
-            font-size: 1.5rem;
-            max-width: 800px;
-        }
-
-        .section-title {
-            font-family: var(--font-primary);
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-        }
-
-        .content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .skills ul, .projects ul {
-            list-style: none;
-            margin: 20px 0;
-            padding: 0;
-        }
-
-        .skills li, .projects li {
-            margin: 10px 0;
-            font-size: 1.2rem;
-        }
-
-        .contact a {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            background: var(--primary-color);
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: background 0.3s ease;
-        }
-
-        .contact a:hover {
-            background: var(--accent-color);
-        }
-        
-        /* Name Text with Moving Outline Effect */
-        .name-container {
-            position: relative;
-            display: inline-block;
-            font-size: 4rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #ffcc00; /* Main text color */
-        }
-
-        .name-outline {
-            position: absolute;
-            top: 0;
-            left: 0;
-            color: transparent;
-            -webkit-text-stroke: 2px rgba(148, 141, 117, 0.7); /* Outline effect */
-            z-index: -1;
-            transition: transform 0.1s ease-out;
-        }
-        
-        .scroll-arrow {
-            position: absolute;
-            bottom: 20px;
-            font-size: 2rem;
-            color: var(--accent-color);
-            animation: bounce 2s infinite;
-        }
-
-        .about {
-            text-align: center;
-            padding: 60px 20px;
-        }
-        
-        .about .section-title {
-            font-size: 2rem;
-        }
-        
-        .about .content {
-            max-width: 900px;
-            font-size: 1.5rem;
-            line-height: 1.5;
-            font-weight: 300;
-        }
-        
-        .about p {
-            font-size: 1.3rem;
-            font-weight: 400;
-            color: #ddd;
-        }
-        
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-    </style>
-</head>
+<link href="styles.css" rel="stylesheet"/></head>
 <body>
-    <div class="stars">
-        <!-- Stars will be dynamically added by script -->
-    </div>
-    <section class="intro">
-        <h1>Welcome to My Universe</h1>
-        <p>Exploring the cosmos of creativity, technology, and innovation.</p>
-        <br>
-        <div class="name-container">
-            <p>SANNITH VANAMALA</p>
-            <p class="name-outline">SANNITH VANAMALA</p>
-        </div>
-        <span class="scroll-arrow">&#8595;</span>
-    </section>
+<div class="stars">
+<!-- Stars will be dynamically added by script -->
+</div>
+<!-- Social Navigation -->
+<nav class="social-nav">
+<a href="mailto:sannith.vanamala@gmail.com" title="Email">✉</a>
+<a href="https://github.com/Saneitt" target="_blank" title="GitHub"><span class="fa-brands fa-github"></span></a>
+<a href="https://www.linkedin.com/in/sannith-vanamala-924822249/" target="_blank" title="LinkedIn"><span class="fa-brands fa-linkedin"></span></a>
+<a href="https://www.instagram.com/sane_itt/" target="_blank" title="Instagram"><span class="fa-brands fa-instagram"></span></a>
+<a href="https://x.com/SannithVanamala" target="_blank" title="X"><span class="fa-brands fa-x-twitter"></span></a>
+</nav>
+<section class="intro">
+<h1>Welcome to My Universe</h1>
+<p>Exploring the cosmos of creativity, technology, and innovation.</p>
+<br/>
+<div class="name-container">
+<p>SANNITH VANAMALA</p>
+<p class="name-outline">SANNITH VANAMALA</p>
+</div>
+<span class="scroll-arrow">↓</span>
+</section>
+<section class="about">
+<h2 class="section-title">About Me</h2>
+<div class="content">
+<p>Fueled by a growing curiosity, I have a deep passion for engineering and creating new and exciting solutions. I have a deep desire for AI and its future, and I make a constant effort to explore and learn new things at all times. I wholeheartedly embrace new challenges, and I make a constant effort to develop my expertise and sharpen my skills. I'm fascinated with AI breakthroughs, and I'm eager to become a part of such a transformational journey. Read on to know me better!</p>
+</div>
+</section>
+<section class="filmmaking">
+<h2 class="section-title">Visual Storytelling</h2>
+<div class="content">
+<div class="film-text">
+<h3>Beyond Code: Crafting Cinematic Narratives</h3>
+<p>While algorithms and data structures fuel my technical mind, there's another dimension to my creativity that thrives behind the camera. Filmmaking isn't just a hobby for me—it's where I explore the poetry of visual storytelling, where every frame becomes a canvas and every cut carries emotion.</p>
+<p>The intersection of technology and artistry fascinates me. Just as I architect code to solve complex problems, I weave together shots, sounds, and stories to create something that resonates on a human level. Each project teaches me something new about perspective, timing, and the delicate balance between technical precision and creative intuition.</p>
+<a class="film-link" href="https://www.youtube.com/watch?v=RJa5eLgjtCw" target="_blank">
+                    Watch My Latest Film ➤
+                </a>
+</div>
+<div class="film-video">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" src="https://www.youtube.com/embed/RJa5eLgjtCw" title="Sannith's Short Film">
+</iframe>
+</div>
+</div>
+</section>
+<section class="experience">
+<h2 class="section-title">Professional Journey</h2>
+<div class="content">
+<div class="experience-grid">
+<div class="experience-card">
+<div class="experience-header">
+<div>
+<h3 class="experience-title">Automation Engineering Intern</h3>
+<p class="experience-company">ACCELQ</p>
+</div>
+<span class="experience-duration">May 2025 – Present</span>
+</div>
+<p class="experience-description">
+                        Diving deep into the future of test automation with ACCELQ's revolutionary AI-driven, no-code platform that's transforming how teams approach quality assurance. Working alongside cutting-edge technology that makes test automation accessible through natural language processing.
+                    </p>
+<ul class="experience-highlights">
+<li>Immersed in ACCELQ's intelligent action-context architecture that reads applications like humans do</li>
+<li>Leveraging AI-powered test authoring that understands intent, not just instructions</li>
+<li>Witnessing firsthand how abstraction and scalability revolutionize enterprise automation</li>
+<li>Became a Certified ACCELQ Automation Engineer through structured learning</li>
+</ul>
+<div class="company-tech">
+<span class="tech-highlight">AI-Driven Testing</span>
+<span class="tech-highlight">No-Code Platform</span>
+<span class="tech-highlight">NLP Automation</span>
+</div>
+</div>
+<div class="experience-card">
+<div class="experience-header">
+<div>
+<h3 class="experience-title">Software Development Engineer Intern</h3>
+<p class="experience-company">Flixdin</p>
+</div>
+<span class="experience-duration">Mar 2025 – Apr 2025</span>
+</div>
+<p class="experience-description">
+                        Contributed to Flixdin's mission of bridging digital experiences across platforms, working on responsive UI components that engage users in meaningful ways. Part of a team that believes in seamless integration between web and mobile ecosystems.
+                    </p>
+<ul class="experience-highlights">
+<li>Crafted responsive UI components using React.js and Next.js frameworks</li>
+<li>Enhanced user engagement through thoughtful interface design and optimization</li>
+<li>Collaborated across teams to ensure unified experiences across web and mobile</li>
+<li>Implemented sophisticated state management for complex application architectures</li>
+</ul>
+<div class="company-tech">
+<span class="tech-highlight">React.js</span>
+<span class="tech-highlight">Next.js</span>
+<span class="tech-highlight">Cross-Platform</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="projects">
+<h2 class="section-title">Projects</h2>
+<div class="content">
+<div class="projects-grid">
+<div class="project-card">
+<div class="project-header">
+<div>
+<h3 class="project-title">TaskTrove</h3>
+</div>
+<a class="project-link" href="https://saneitt.github.io/TaskTrove/" target="_blank">↗</a>
+</div>
+<p class="project-description">
+                        A comprehensive platform designed to bridge the gap between skilled workers and demand. TaskTrove creates meaningful connections in the gig economy, featuring intuitive user interfaces and smart matching algorithms.
+                    </p>
+<div class="project-tech">
+<span class="tech-tag">HTML/CSS</span>
+<span class="tech-tag">JavaScript</span>
+<span class="tech-tag">UI/UX</span>
+</div>
+</div>
+<div class="project-card">
+<div class="project-header">
+<div>
+<h3 class="project-title">Sand Tetris</h3>
+</div>
+<a class="project-link" href="https://saneitt.github.io/Sand-falling-sim/" target="_blank">↗</a>
+</div>
+<p class="project-description">
+                        An experimental physics simulation that brings the mesmerizing beauty of falling sand to life. This project explores particle systems, collision detection, and the satisfying nature of granular dynamics.
+                    </p>
+<div class="project-tech">
+<span class="tech-tag">JavaScript</span>
+<span class="tech-tag">Canvas API</span>
+<span class="tech-tag">Physics</span>
+</div>
+</div>
+<div class="project-card">
+<div class="project-header">
+<div>
+<h3 class="project-title">Pulse Point</h3>
+</div>
+<a class="project-link" href="#">↗</a>
+</div>
+<p class="project-description">
+                        An AI-powered healthcare platform that revolutionizes real-time health diagnostics. Using advanced deep learning models to assess vital signs and predict health risks with remarkable accuracy, bringing AI-driven healthcare to the forefront.
+                    </p>
+<div class="project-tech">
+<span class="tech-tag">PyTorch</span>
+<span class="tech-tag">Deep Learning</span>
+<span class="tech-tag">Healthcare AI</span>
+</div>
+</div>
+<div class="project-card">
+<div class="project-header">
+<div>
+<h3 class="project-title">Neuronet</h3>
+</div>
+<a class="project-link" href="#">↗</a>
+</div>
+<p class="project-description">
+                        A sophisticated neural network system that analyzes MRI scans to detect early signs of neurological disorders. Bridging the gap between AI innovation and medical expertise through intelligent diagnostic assistance.
+                    </p>
+<div class="project-tech">
+<span class="tech-tag">Neural Networks</span>
+<span class="tech-tag">Medical Imaging</span>
+<span class="tech-tag">AI Diagnostics</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="skills">
+<h2 class="section-title">Skills &amp; Technologies</h2>
+<div class="content">
+<div class="skills-grid">
+<div class="skill-category">
+<h3>Programming Languages</h3>
+<ul class="skill-list">
+<li>Python</li>
+<li>Java</li>
+<li>C/C++</li>
+<li>JavaScript</li>
+</ul>
+</div>
+<div class="skill-category">
+<h3>Web Development</h3>
+<ul class="skill-list">
+<li>HTML5 &amp; CSS3</li>
+<li>JavaScript ES6+</li>
+<li>ReactJS</li>
+<li>Responsive Design</li>
+</ul>
+</div>
+<div class="skill-category">
+<h3>AI &amp; Machine Learning</h3>
+<ul class="skill-list">
+<li>PyTorch &amp; Deep Learning</li>
+<li>Natural Language Processing</li>
+<li>Neural Networks</li>
+<li>AI Applications</li>
+</ul>
+</div>
+<div class="skill-category">
+<h3>Cloud &amp; Platforms</h3>
+<ul class="skill-list">
+<li>Microsoft Azure</li>
+<li>AWS Cloud Services</li>
+<li>Database Management</li>
+<li>MySQL</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
 
-    <section class="about">
-        <h2 class="section-title">About Me</h2>
-        <div class="content">
-            <p>Fueled by a growing curiosity, I have a deep passion for engineering and creating new and exciting solutions. I have a deep desire for AI and its future, and I make a constant effort to explore and learn new things at all times. I wholeheartedly embrace new challenges, and I make a constant effort to develop my expertise and sharpen my skills. I'm fascinated with AI breakthroughs, and I'm eager to become a part of such a transformational journey. Read on to know me better!</p>
-        </div>
-    </section>
-    
-
-    <section class="projects">
-        <h2 class="section-title">Projects</h2>
-        <div class="content">
-            <ul>
-                <li><strong>TaskTrove:</strong> A platform connecting workers with demand.<a href="https://saneitt.github.io/TaskTrove/"> 🡥</a></li>
-                <li><strong>Sand Tetris:</strong> I made a pointless sand falling sim because it was fun.<a href="https://saneitt.github.io/Sand-falling-sim/"> 🡥</a></li>
-                <li><strong>Portfolio Website:</strong> This very site you're visiting!</li>
-            </ul>
-        </div>
-    </section>
-
-    <section class="skills">
-        <h2 class="section-title">Skills</h2>
-        <div class="content">
-            <ul>
-                <li>Python, Java, C, C++, Git, github</li>
-                <li>Web Development: HTML, CSS, JavaScript, ReactJS</li>
-                <li>AI and Machine Learning Basics</li>
-            </ul>
-        </div>
-    </section>
-
-    <section class="contact">
-        <h2 class="section-title">Contact Me</h2>
-        <div class="content">
-            <p>Feel free to reach out for collaborations, queries, or just to say hi!</p>
-            <a href="mailto:sannith.vanamala@gmail.com">Email Me</a>
-            <a href="https://github.com/Saneitt" target="_blank">GitHub</a>
-            <a href="https://www.linkedin.com/in/sannith-vanamala-924822249/" target="_blank">LinkedIn</a>
-        </div>
-    </section>
-
-    <script>
-        // Generate stars dynamically
-        const starContainer = document.querySelector('.stars');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.animationDuration = `${Math.random() * 3 + 2}s`;
-            starContainer.appendChild(star);
-        }
-
-        // Add a shooting star occasionally
-        setInterval(() => {
-            const shootingStar = document.createElement('div');
-            shootingStar.classList.add('shooting-star');
-            shootingStar.style.top = `${Math.random() * window.innerHeight}px`;
-            shootingStar.style.left = `${Math.random() * window.innerWidth}px`;
-            starContainer.appendChild(shootingStar);
-
-            setTimeout(() => {
-                shootingStar.remove();
-            }, 5000);
-        }, 5000);
-
-        // Adjust section opacity based on scroll position
-        const sections = document.querySelectorAll('section');
-        window.addEventListener('scroll', () => {
-            const viewportHeight = window.innerHeight;
-
-            sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                const centerDistance = Math.abs(rect.top + rect.height / 2 - viewportHeight / 2);
-                const opacity = Math.max(0.3, 1 - centerDistance / (viewportHeight / 1.5));
-                section.style.opacity = opacity.toFixed(2);
-            });
-        });
-
-
-        // Mousemove event to move the outline
-        document.addEventListener("mousemove", (event) => {
-            const nameOutline = document.querySelector(".name-outline");
-
-            const { clientX: x, clientY: y } = event;
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-
-            const offsetX = (x - centerX) / 30;
-            const offsetY = (y - centerY) / 30;
-
-            nameOutline.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-        });
-
-
-    </script>
-</body>
+<script src="script.js"></script></body>
 </html>
