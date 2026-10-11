@@ -224,7 +224,18 @@
 
   let toastTimer;
   function toast(message) { $('#toast').textContent = message; $('#toast').classList.add('visible'); clearTimeout(toastTimer); toastTimer = setTimeout(() => $('#toast').classList.remove('visible'), 3500); }
-  $('#copy-email').addEventListener('click', async () => { try { await navigator.clipboard.writeText('sannithvanamala@gmail.com'); toast('Email copied. Say hello anytime.'); } catch { toast('sannithvanamala@gmail.com — select the address to copy.'); } });
+  $('#copy-email').addEventListener('click', async () => {
+    let clipboardTimeout;
+    toast('Copying email…');
+    try {
+      await Promise.race([
+        navigator.clipboard.writeText('sannithvanamala@gmail.com'),
+        new Promise((_, reject) => { clipboardTimeout = setTimeout(() => reject(new Error('Clipboard unavailable')), 2500); })
+      ]);
+      toast('Email copied. Say hello anytime.');
+    } catch { toast('Select the email address below to copy it.'); }
+    finally { clearTimeout(clipboardTimeout); }
+  });
   const sections = $$('section[id]').filter(s => ['work','film','play','about'].includes(s.id));
   const visibleSections = new Map();
   const navObserver = new IntersectionObserver(entries => {
