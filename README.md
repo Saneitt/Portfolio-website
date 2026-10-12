@@ -32,9 +32,11 @@ The site has no analytics, tracking scripts, API keys, or backend. Google Fonts 
 
 Normal document scrolling, visible keyboard focus, semantic headings, native modal focus containment, Escape dismissal, a skip link, responsive layouts, and a persistent ambient-motion control. System reduced-motion preference disables ambient rotation by default. Canvas work pauses offscreen and when the page is hidden. Sand moves only after a visitor interacts with it, then settles. The Drop sand button offers a keyboard alternative to drawing.
 
-The sun/moon button switches the entire portfolio between warm paper and graphite/sage themes, starting from the system preference and remembering an explicit choice. A thin header line tracks reading progress; below-fold content reveals once, and the orbital instrument drifts by at most 16 pixels. Scrolling uses the browser's native behavior. Shooting stars appear one at a time roughly every 4–6 seconds, with no animation loop between passes. Ambient pause and reduced-motion preferences suppress stars, reveals, and instrument drift.
+The sun/moon button switches the entire portfolio between warm paper and graphite/sage themes, starting from the system preference and remembering an explicit choice. A thin header line tracks reading progress; below-fold content reveals once, and the orbital instrument drifts by at most 16 pixels. Scrolling uses the browser's native behavior. Small groups of two or three shooting stars appear roughly every 4–6 seconds, with staggered starts and separated paths, with no animation loop between passes. Ambient pause and reduced-motion preferences suppress stars, reveals, and instrument drift.
 
 Use **Ctrl/Cmd + K** to search projects and sections. The instrument's discipline buttons support arrow keys. Source links, contact links, the biography, and the film's direct YouTube link remain available without JavaScript.
+
+AI is a visible part of the personal building process: exploring implementation choices, prototyping, and iterating efficiently, paired with code review, focused testing, and responsibility for the shipped result. Section markers and meaningful supporting labels use larger type in both themes and at mobile sizes.
 
 ## Content and provenance
 

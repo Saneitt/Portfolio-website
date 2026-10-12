@@ -154,3 +154,74 @@ main,.site-footer { position:relative; z-index:1; }
   .reveal-target { opacity:1; translate:0; transition:none; }
   .hero .instrument { transform:rotate(-1.5deg); }
 }
+
+/* Readable workshop labels, with editorial section markers rather than badges. */
+.eyebrow { font-size:11px; letter-spacing:.045em; }
+:is(.section-heading,.process-intro,.about-intro)>.eyebrow,
+.section-heading>div>.eyebrow,
+.section-number {
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink);
+  letter-spacing:.045em;
+  line-height:1.6;
+}
+:is(.section-heading,.process-intro,.about-intro)>.eyebrow:before,
+.section-heading>div>.eyebrow:before {
+  content:'';
+  width:15px;
+  height:2px;
+  flex-shrink:0;
+  background:var(--orange);
+}
+.film-heading>div>.eyebrow { color:#d3dec8; }
+.hero .eyebrow { font-size:10px; line-height:1.7; }
+.hero-footnote { font-size:10px; flex-wrap:wrap; gap:12px 20px; }
+.instrument-top { font-size:10px; letter-spacing:.035em; }
+.readout-label { font-size:10px; }
+.instrument-readout p { font-size:13px; }
+.lens-button { font-size:11px; }
+.project-category { font-size:11px; line-height:1.65; letter-spacing:.03em; }
+.project-meta p:not(.project-category) { font-size:14px; }
+.project-links { font-size:11px; flex-wrap:wrap; }
+.project-links>a { font-size:12px; flex-shrink:0; }
+.result-count,.note-index,.note-footer,.experience-skill { font-size:10px; line-height:1.7; }
+.film-bottom .eyebrow,.sand-heading .eyebrow,.experience-list>.eyebrow,.toolkit>.eyebrow,.contact-top>.eyebrow { font-size:11px; }
+.film-credits { font-size:10px; line-height:1.7; }
+.sand-instruction { font-size:10px; letter-spacing:.04em; }
+.education-stamp div { font-size:11px; }
+.education-stamp span:last-child { font-size:10px; }
+.education-stamp b { font-size:12px; }
+.experience-top>span { font-size:10px; }
+.email-address { font-size:12px; }
+.contact-top>.mono { font-size:10px; }
+.site-footer,.site-footer>a { font-size:10px; line-height:1.6; }
+.site-footer>div { font-size:12px; }
+.process-steps details>p { font-size:14px; }
+.ai-step { border-left:2px solid var(--orange); padding-left:14px; }
+.dialog-toolbar>.eyebrow,.project-detail>.eyebrow { font-size:11px; }
+.detail-stats { font-size:12px; }
+.detail-stats span,.detail-flow,.detail-stack { font-size:11px; }
+.detail-flow { flex-wrap:wrap; line-height:1.8; }
+
+@media(max-width:900px) {
+  .hero .eyebrow { font-size:9px; }
+  .lens-controls { grid-template-columns:repeat(2,1fr); }
+  .project-links { flex-direction:column; }
+  .experience-top { flex-wrap:wrap; gap:10px; }
+  .intro { grid-template-columns:1fr 2.4fr; gap:28px; }
+}
+@media(max-width:680px) {
+  .hero .eyebrow { font-size:10px; letter-spacing:.025em; }
+  .hero-footnote { flex-direction:column; align-items:flex-start; gap:10px; }
+  .intro { grid-template-columns:1fr; gap:20px; }
+  .section-number { font-size:12px; }
+  .instrument-top { font-size:9px; }
+  .lens-controls { gap:8px; }
+  .lens-button { height:42px; }
+  .project-links { flex-direction:row; }
+  .film-credits { font-size:10px; gap:12px; }
+  .contact-top>.mono { font-size:10px; line-height:1.7; }
+  .detail-stats { grid-template-columns:1fr; }
+  .ai-step { padding-left:10px; }
+}

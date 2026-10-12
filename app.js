@@ -62,7 +62,7 @@
   let orbitWidth = 0, orbitHeight = 0, yaw = -.45, pitch = .38, spin = 0, mode = 0;
   let orbitVisible = false, orbitFrame = 0, orbitLast = 0, drag = null;
   const lenses = {
-    software: ['01', 'SOFTWARE & AI', 'Making complex systems feel usable.', '#work', 'Explore software work'],
+    software: ['01', 'SOFTWARE & AI', 'Building useful software with AI.', '#work', 'Explore software work'],
     design: ['02', 'PRODUCT & INTERACTION', 'Giving an idea a useful, tangible shape.', '#work', 'Explore design work'],
     film: ['03', 'FILM & STORY', 'Building worlds, one frame at a time.', '#film', 'Explore filmmaking'],
     play: ['04', 'EXPERIMENTS & PLAY', 'Following a question until it becomes something.', '#play', 'Explore side projects']
@@ -169,7 +169,7 @@
     ...Object.entries(window.PORTFOLIO_PROJECTS).map(([key, p]) => ({name: p.title, type: 'PROJECT', terms: `${p.category} ${p.stack}`, project: key})),
     {name: 'Vignette — the film', type: 'FILM', href: '#film', terms: 'writing cinematography directing editing'},
     {name: 'Experiments & side quests', type: 'SECTION', href: '#play', terms: 'sand vtol aviation photography tinkering'},
-    {name: 'How I build', type: 'SECTION', href: '#process-title', terms: 'process thinking strategy planning'},
+    {name: 'How I build', type: 'SECTION', href: '#process', terms: 'process thinking strategy planning ai assisted development prototyping'},
     {name: 'Experience & background', type: 'SECTION', href: '#about', terms: 'accelq flixdin education vit'},
     {name: 'Get in touch', type: 'CONTACT', href: '#contact', terms: 'email hire contact'}
   ];
@@ -178,7 +178,16 @@
   function navigateIndex(item) {
     closeDialog($('#index-dialog'));
     // Wait for native close focus restoration before opening another modal.
-    requestAnimationFrame(() => { if (item.project) openProject(item.project); else { location.hash = item.href; const target = $(item.href); target?.setAttribute('tabindex', '-1'); target?.focus({preventScroll:true}); } });
+    requestAnimationFrame(() => {
+      if (item.project) openProject(item.project);
+      else {
+        location.hash = item.href;
+        const target = $(item.href);
+        target?.setAttribute('tabindex', '-1');
+        target?.focus({preventScroll:true});
+        target?.scrollIntoView({block:'start', behavior:motionOff ? 'instant' : 'smooth'});
+      }
+    });
   }
   function renderIndex() {
     const query = $('#index-search').value.trim().toLowerCase();
@@ -246,9 +255,9 @@
   new IntersectionObserver(([e]) => { sandVisible = e.isIntersecting; startSand(); }).observe(sand);
   document.addEventListener('visibilitychange', startSand); seedSand();
 
-  // One quiet meteor at a time. The canvas is idle between passes.
+  // Small, staggered groups of two or three; the canvas rests between passes.
   const sky = $('#sky-canvas'), skyCtx = sky.getContext('2d');
-  let skyWidth = innerWidth, skyHeight = innerHeight, skyFrame = 0, meteorTimer = 0, meteor = null;
+  let skyWidth = innerWidth, skyHeight = innerHeight, skyFrame = 0, meteorTimer = 0, meteors = [], nextMeteorAt = 0;
   let skyColor = '', skyOpacity = 0;
   function readSkyPalette() {
     const styles = getComputedStyle(document.documentElement);
@@ -263,9 +272,10 @@
   }
   function stopSky() {
     clearTimeout(meteorTimer); cancelAnimationFrame(skyFrame);
-    meteorTimer = 0; skyFrame = 0; meteor = null;
+    meteorTimer = 0; skyFrame = 0; meteors = [];
     skyCtx.clearRect(0, 0, skyWidth, skyHeight);
     sky.dataset.active = 'false';
+    sky.dataset.count = '0';
   }
   function scheduleMeteor(delay = 2600 + Math.random() * 1600) {
     clearTimeout(meteorTimer);
@@ -275,30 +285,40 @@
     if (motionOff || document.hidden) return;
     if ($('dialog[open]')) { scheduleMeteor(); return; }
     const direction = Math.random() > .5 ? 1 : -1;
-    meteor = {
-      start:performance.now(), duration:1500 + Math.random() * 500,
-      x:skyWidth * (direction > 0 ? .06 + Math.random() * .42 : .52 + Math.random() * .4),
-      y:skyHeight * (.07 + Math.random() * .58),
-      dx:direction * Math.min(520, skyWidth * .45), dy:Math.min(170, skyHeight * .22),
+    const count = Math.random() < .4 ? 3 : 2, start = performance.now();
+    nextMeteorAt = start + 4100 + Math.random() * 2100;
+    meteors = Array.from({length:count}, (_, i) => ({
+      start:start + (i ? i * 160 + Math.random() * 180 : 0), duration:1500 + Math.random() * 500,
+      x:skyWidth * (direction > 0 ? .03 + Math.random() * .46 : .51 + Math.random() * .46),
+      y:skyHeight * (.1 + (i + .15 + Math.random() * .55) / count * .7),
+      dx:direction * Math.min(520, skyWidth * (.35 + Math.random() * .1)),
+      dy:Math.min(170, skyHeight * (.12 + Math.random() * .1)),
       trail:Math.min(105, skyWidth * .17)
-    };
+    }));
     sky.dataset.active = 'true'; skyFrame = requestAnimationFrame(drawMeteor);
   }
   function drawMeteor(time) {
     skyFrame = 0;
-    if (!meteor || motionOff || document.hidden) { stopSky(); return; }
-    const t = Math.min(1, (time - meteor.start) / meteor.duration);
+    if (!meteors.length || motionOff || document.hidden) { stopSky(); return; }
     skyCtx.clearRect(0, 0, skyWidth, skyHeight);
-    const x = meteor.x + meteor.dx * t, y = meteor.y + meteor.dy * t;
-    const distance = Math.hypot(meteor.dx, meteor.dy), tailX = x - meteor.dx / distance * meteor.trail, tailY = y - meteor.dy / distance * meteor.trail;
-    const alpha = Math.sin(t * Math.PI) * skyOpacity;
-    const gradient = skyCtx.createLinearGradient(tailX, tailY, x, y);
-    gradient.addColorStop(0, `rgba(${skyColor},0)`); gradient.addColorStop(1, `rgba(${skyColor},${alpha})`);
-    skyCtx.beginPath(); skyCtx.moveTo(tailX, tailY); skyCtx.lineTo(x, y);
-    skyCtx.strokeStyle = gradient; skyCtx.lineWidth = 1; skyCtx.stroke();
-    skyCtx.beginPath(); skyCtx.arc(x, y, 1.15, 0, Math.PI * 2); skyCtx.fillStyle = `rgba(${skyColor},${alpha})`; skyCtx.fill();
-    if (t < 1) skyFrame = requestAnimationFrame(drawMeteor);
-    else { stopSky(); scheduleMeteor(); }
+    meteors = meteors.filter(meteor => time < meteor.start + meteor.duration);
+    let visibleCount = 0;
+    meteors.forEach(meteor => {
+      if (time < meteor.start) return;
+      visibleCount++;
+      const t = (time - meteor.start) / meteor.duration;
+      const x = meteor.x + meteor.dx * t, y = meteor.y + meteor.dy * t;
+      const distance = Math.hypot(meteor.dx, meteor.dy), tailX = x - meteor.dx / distance * meteor.trail, tailY = y - meteor.dy / distance * meteor.trail;
+      const alpha = Math.sin(t * Math.PI) * skyOpacity;
+      const gradient = skyCtx.createLinearGradient(tailX, tailY, x, y);
+      gradient.addColorStop(0, `rgba(${skyColor},0)`); gradient.addColorStop(1, `rgba(${skyColor},${alpha})`);
+      skyCtx.beginPath(); skyCtx.moveTo(tailX, tailY); skyCtx.lineTo(x, y);
+      skyCtx.strokeStyle = gradient; skyCtx.lineWidth = 1; skyCtx.stroke();
+      skyCtx.beginPath(); skyCtx.arc(x, y, 1.15, 0, Math.PI * 2); skyCtx.fillStyle = `rgba(${skyColor},${alpha})`; skyCtx.fill();
+    });
+    sky.dataset.count = String(visibleCount);
+    if (meteors.length) skyFrame = requestAnimationFrame(drawMeteor);
+    else { const delay = Math.max(0, nextMeteorAt - time); stopSky(); scheduleMeteor(delay); }
   }
   function restartSky() { stopSky(); scheduleMeteor(1800); }
   readSkyPalette(); sizeSky(); scheduleMeteor(1600);

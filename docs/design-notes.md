@@ -21,9 +21,11 @@ These references informed interaction principles, material feel, and visual hier
 
 Sannith's name is the primary title, with “Built on curiosity.” as a subordinate statement. The orbital instrument introduces a few of his interests alongside that identity. Warm paper and graphite/sage palettes share a restrained orange accent; dark mode includes its own instrument materials, diagrams, cards, dialogs, and readable secondary text rather than a color inversion. The theme is applied before stylesheet paint and remembers the visitor's explicit choice.
 
-One faint shooting star crosses the open page background every 4–6 seconds, with a short initial appearance and no competing particle field. It uses a capped-resolution canvas, rests between passes, pauses while the document is hidden, and avoids starting behind open dialogs. The ambient-motion control stops it immediately.
+A small group of two or three faint shooting stars crosses the open page background every 4–6 seconds. Their starts are staggered, and vertical bands keep the paths naturally separated; no more than three are active at once. It uses a capped-resolution canvas, rests between passes, pauses while the document is hidden, and avoids starting behind open dialogs. The ambient-motion control stops it immediately.
 
 The scroll treatment preserves native wheel, touch, keyboard, and anchor behavior. A two-pixel reading-progress line, one-time 18-pixel content reveals, and a maximum 16-pixel instrument drift provide continuity without changing scroll speed. Layout changes from filtering, accordions, and resizing recalculate progress through ResizeObserver. Reduced motion or ambient pause keeps content fully visible and removes decorative travel. Keyboard focus reveals any pending content immediately.
+
+The copy now uses Sannith’s own point of view more consistently: things he has built, stories he wants to tell, and his way into an idea. AI is explicit in the hero and software readout, then explained in an open process step. The emphasis is efficient use through clear context and focused tasks, with implementation review and ownership of the result. Section labels use 12-pixel type and a restrained accent rule, while project metadata, film credits, experience details, and contact text have larger reading sizes. The mobile instrument controls use two rows so larger labels stay comfortable.
 
 ## Content verification
 
