@@ -2,6 +2,29 @@
   'use strict';
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+  const themeEvents = new EventTarget();
+  const systemTheme = matchMedia('(prefers-color-scheme: dark)');
+  let explicitTheme = false;
+  try { explicitTheme = ['light', 'dark'].includes(localStorage.getItem('sv-theme')); } catch {}
+  function readPalette() {
+    const styles = getComputedStyle(document.documentElement);
+    return Object.fromEntries(['wire','latitude','ring','accent','node','halo'].map(key => [key, styles.getPropertyValue(`--orbit-${key}`).trim()]));
+  }
+  let orbitPalette = readPalette();
+  function setTheme(theme, persist = false) {
+    document.documentElement.dataset.theme = theme;
+    const dark = theme === 'dark', label = dark ? 'Switch to light theme' : 'Switch to dark theme';
+    $('#theme-toggle').setAttribute('aria-label', label);
+    $('#theme-toggle').setAttribute('aria-pressed', String(dark));
+    $('#theme-toggle').title = label;
+    $('meta[name="theme-color"]').content = dark ? '#111614' : '#efeee8';
+    if (persist) { explicitTheme = true; try { localStorage.setItem('sv-theme', theme); } catch {} }
+    orbitPalette = readPalette();
+    themeEvents.dispatchEvent(new Event('change'));
+  }
+  setTheme(document.documentElement.dataset.theme || (systemTheme.matches ? 'dark' : 'light'));
+  $('#theme-toggle').addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark', true));
+  systemTheme.addEventListener('change', e => { if (!explicitTheme) setTheme(e.matches ? 'dark' : 'light'); });
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let motionOff = reduced.matches;
   try { const pref = localStorage.getItem('sv-motion'); if (pref !== null) motionOff = pref === 'off' || reduced.matches; } catch {}
@@ -86,24 +109,24 @@
         const t = i / 100 * Math.PI * 2, squash = mode === 1 ? .72 : 1;
         points.push([Math.cos(t) * Math.cos(a), Math.sin(t) * squash, Math.cos(t) * Math.sin(a)]);
       }
-      line3D(points, 'rgba(62,76,62,.19)', .65);
+      line3D(points, orbitPalette.wire, .65);
     }
     for (let j = -3; j <= 3; j++) {
       const y = j * .23, radius = Math.sqrt(1 - y * y), points = [];
       for (let i = 0; i <= 100; i++) { const t = i / 100 * Math.PI * 2; points.push([radius * Math.cos(t), y * (mode === 1 ? .72 : 1), radius * Math.sin(t)]); }
-      line3D(points, 'rgba(62,76,62,.16)', .65);
+      line3D(points, orbitPalette.latitude, .65);
     }
     for (let ring = 0; ring < 2; ring++) {
       const points = [], tilt = ring ? .7 + mode * .2 : -.45;
       for (let i = 0; i <= 140; i++) { const t = i / 140 * Math.PI * 2; points.push([Math.cos(t) * 1.3, Math.sin(t) * Math.sin(tilt) * 1.3, Math.sin(t) * Math.cos(tilt) * 1.3]); }
-      line3D(points, ring ? 'rgba(86,96,78,.38)' : '#ca4c2f', ring ? .7 : 1.3);
+      line3D(points, ring ? orbitPalette.ring : orbitPalette.accent, ring ? .7 : 1.3);
     }
     for (let i = 0; i < 4; i++) {
       const a = i * Math.PI / 2 + .35, p = projectPoint(Math.cos(a) * 1.3, Math.sin(a) * -.565, Math.sin(a) * 1.17);
-      ctx.beginPath(); ctx.arc(p[0], p[1], mode === i ? 5 : 2.5, 0, Math.PI * 2); ctx.fillStyle = mode === i ? '#d84b2c' : '#717866'; ctx.fill();
-      if (mode === i) { ctx.beginPath(); ctx.arc(p[0], p[1], 9, 0, Math.PI * 2); ctx.strokeStyle = '#d84b2c66'; ctx.lineWidth = .7; ctx.stroke(); }
+      ctx.beginPath(); ctx.arc(p[0], p[1], mode === i ? 5 : 2.5, 0, Math.PI * 2); ctx.fillStyle = mode === i ? orbitPalette.accent : orbitPalette.node; ctx.fill();
+      if (mode === i) { ctx.beginPath(); ctx.arc(p[0], p[1], 9, 0, Math.PI * 2); ctx.strokeStyle = orbitPalette.halo; ctx.lineWidth = .7; ctx.stroke(); }
     }
-    const center = projectPoint(0, 0, 0); ctx.fillStyle = '#d84b2c'; ctx.fillRect(center[0] - 2, center[1] - 2, 4, 4);
+    const center = projectPoint(0, 0, 0); ctx.fillStyle = orbitPalette.accent; ctx.fillRect(center[0] - 2, center[1] - 2, 4, 4);
   }
   function orbitTick(time) {
     orbitFrame = 0;
@@ -119,6 +142,7 @@
   }).observe(orbit);
   new IntersectionObserver(([e]) => { orbitVisible = e.isIntersecting; resumeOrbit(); }).observe(orbit);
   motionEvents.addEventListener('change', resumeOrbit); document.addEventListener('visibilitychange', resumeOrbit);
+  themeEvents.addEventListener('change', drawOrbit);
   orbit.addEventListener('pointerdown', e => { drag = {x: e.clientX, y: e.clientY}; orbit.setPointerCapture(e.pointerId); });
   orbit.addEventListener('pointermove', e => { if (!drag) return; yaw += (e.clientX - drag.x) * .009; pitch += (e.clientY - drag.y) * .006; drag = {x: e.clientX, y: e.clientY}; drawOrbit(); });
   ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(event => orbit.addEventListener(event, () => { drag = null; }));
@@ -221,6 +245,96 @@
   $('#clear-sand').addEventListener('click', () => { grains.fill(0); unsettled = 0; pouring = null; $('#sand-instruction').style.opacity = '1'; renderSand(); });
   new IntersectionObserver(([e]) => { sandVisible = e.isIntersecting; startSand(); }).observe(sand);
   document.addEventListener('visibilitychange', startSand); seedSand();
+
+  // One quiet meteor at a time. The canvas is idle between passes.
+  const sky = $('#sky-canvas'), skyCtx = sky.getContext('2d');
+  let skyWidth = innerWidth, skyHeight = innerHeight, skyFrame = 0, meteorTimer = 0, meteor = null;
+  let skyColor = '', skyOpacity = 0;
+  function readSkyPalette() {
+    const styles = getComputedStyle(document.documentElement);
+    skyColor = styles.getPropertyValue('--sky-rgb').trim();
+    skyOpacity = parseFloat(styles.getPropertyValue('--sky-opacity'));
+  }
+  function sizeSky() {
+    skyWidth = innerWidth; skyHeight = innerHeight;
+    const dpr = Math.min(devicePixelRatio || 1, 1.5);
+    sky.width = Math.round(skyWidth * dpr); sky.height = Math.round(skyHeight * dpr);
+    skyCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function stopSky() {
+    clearTimeout(meteorTimer); cancelAnimationFrame(skyFrame);
+    meteorTimer = 0; skyFrame = 0; meteor = null;
+    skyCtx.clearRect(0, 0, skyWidth, skyHeight);
+    sky.dataset.active = 'false';
+  }
+  function scheduleMeteor(delay = 4500 + Math.random() * 2400) {
+    clearTimeout(meteorTimer);
+    if (!motionOff && !document.hidden) meteorTimer = setTimeout(beginMeteor, delay);
+  }
+  function beginMeteor() {
+    if (motionOff || document.hidden) return;
+    if ($('dialog[open]')) { scheduleMeteor(); return; }
+    const direction = Math.random() > .5 ? 1 : -1;
+    meteor = {
+      start:performance.now(), duration:1500 + Math.random() * 500,
+      x:skyWidth * (direction > 0 ? .06 + Math.random() * .42 : .52 + Math.random() * .4),
+      y:skyHeight * (.07 + Math.random() * .58),
+      dx:direction * Math.min(520, skyWidth * .45), dy:Math.min(170, skyHeight * .22),
+      trail:Math.min(105, skyWidth * .17)
+    };
+    sky.dataset.active = 'true'; skyFrame = requestAnimationFrame(drawMeteor);
+  }
+  function drawMeteor(time) {
+    skyFrame = 0;
+    if (!meteor || motionOff || document.hidden) { stopSky(); return; }
+    const t = Math.min(1, (time - meteor.start) / meteor.duration);
+    skyCtx.clearRect(0, 0, skyWidth, skyHeight);
+    const x = meteor.x + meteor.dx * t, y = meteor.y + meteor.dy * t;
+    const distance = Math.hypot(meteor.dx, meteor.dy), tailX = x - meteor.dx / distance * meteor.trail, tailY = y - meteor.dy / distance * meteor.trail;
+    const alpha = Math.sin(t * Math.PI) * skyOpacity;
+    const gradient = skyCtx.createLinearGradient(tailX, tailY, x, y);
+    gradient.addColorStop(0, `rgba(${skyColor},0)`); gradient.addColorStop(1, `rgba(${skyColor},${alpha})`);
+    skyCtx.beginPath(); skyCtx.moveTo(tailX, tailY); skyCtx.lineTo(x, y);
+    skyCtx.strokeStyle = gradient; skyCtx.lineWidth = 1; skyCtx.stroke();
+    skyCtx.beginPath(); skyCtx.arc(x, y, 1.15, 0, Math.PI * 2); skyCtx.fillStyle = `rgba(${skyColor},${alpha})`; skyCtx.fill();
+    if (t < 1) skyFrame = requestAnimationFrame(drawMeteor);
+    else { stopSky(); scheduleMeteor(); }
+  }
+  function restartSky() { stopSky(); scheduleMeteor(1800); }
+  readSkyPalette(); sizeSky(); scheduleMeteor(1600);
+  themeEvents.addEventListener('change', readSkyPalette);
+  motionEvents.addEventListener('change', restartSky);
+  document.addEventListener('visibilitychange', restartSky);
+  window.addEventListener('resize', sizeSky, {passive:true});
+
+  // Native scrolling stays in charge. This observer adds only short, one-time reveals.
+  const revealTargets = $$('.section-heading, .project-card, .film-bottom, .field-note, .process-intro, .process-steps, .about-intro, .experience-row, .contact-bottom');
+  const reveals = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.remove('reveal-pending'); reveals.unobserve(entry.target); } });
+  }, {threshold:0, rootMargin:'0px 0px -24px 0px'});
+  revealTargets.forEach(element => {
+    element.classList.add('reveal-target');
+    if (!motionOff && element.getBoundingClientRect().top > innerHeight) { element.classList.add('reveal-pending'); reveals.observe(element); }
+  });
+  document.addEventListener('focusin', e => e.target.closest('.reveal-pending')?.classList.remove('reveal-pending'));
+  function revealAll() { if (motionOff) { revealTargets.forEach(e => e.classList.remove('reveal-pending')); reveals.disconnect(); } }
+  motionEvents.addEventListener('change', revealAll);
+  let scrollFrame = 0, scrollRange = 1, heroHeight = 1;
+  const progressFill = $('#reading-progress-fill'), heroInstrument = $('.hero .instrument');
+  function updateScroll() {
+    scrollFrame = 0;
+    const progress = Math.max(0, Math.min(1, scrollY / scrollRange));
+    progressFill.style.transform = `scaleX(${progress})`;
+    const drift = motionOff || innerWidth < 681 ? 0 : -Math.min(1, Math.max(0, scrollY / heroHeight)) * 16;
+    heroInstrument.style.setProperty('--scroll-drift', `${drift.toFixed(2)}px`);
+  }
+  function queueScroll() { if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll); }
+  function measureScroll() { scrollRange = Math.max(1, document.documentElement.scrollHeight - innerHeight); heroHeight = $('#top').offsetHeight; queueScroll(); }
+  window.addEventListener('scroll', queueScroll, {passive:true});
+  window.addEventListener('resize', measureScroll, {passive:true});
+  new ResizeObserver(measureScroll).observe(document.body);
+  motionEvents.addEventListener('change', queueScroll);
+  measureScroll();
 
   let toastTimer;
   function toast(message) { $('#toast').textContent = message; $('#toast').classList.add('visible'); clearTimeout(toastTimer); toastTimer = setTimeout(() => $('#toast').classList.remove('visible'), 3500); }
