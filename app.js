@@ -267,7 +267,7 @@
     skyCtx.clearRect(0, 0, skyWidth, skyHeight);
     sky.dataset.active = 'false';
   }
-  function scheduleMeteor(delay = 4500 + Math.random() * 2400) {
+  function scheduleMeteor(delay = 2600 + Math.random() * 1600) {
     clearTimeout(meteorTimer);
     if (!motionOff && !document.hidden) meteorTimer = setTimeout(beginMeteor, delay);
   }
