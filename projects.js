@@ -1,20 +1,64 @@
 /* Project narratives are kept separate from presentation so claims are easy to review. */
 window.PORTFOLIO_PROJECTS = {
   jarvis: {
-    title: 'Personal Jarvis', category: 'PRODUCT DESIGN / INTERACTION PROTOTYPE',
-    deck: 'A personal assistant you speak to, with a workspace that makes its next move visible.',
-    role: 'Concept, interaction design & prototype', type: 'Independent exploration',
-    flow: ['Speak a request', 'Review the plan', 'Approve an action', 'See the receipt'],
-    sections: [
-      ['The question', 'What would a personal assistant feel like if voice were the starting point? I wanted the presence of a companion and the clarity of a useful instrument, centered on daily planning and actions across apps.'],
-      ['The design decision', 'The conversation does not become a wall of messages. A compact schedule provides context while a visible action plan lets someone understand what will change before they approve it.'],
-      ['Making trust tangible', 'The prototype explores explicit approval, cancellation, an action receipt, undo, and editable memory. Each state gives a voice interaction something concrete to return to.'],
-      ['What I would test next', 'Can someone predict the assistant’s next action? Can they interrupt it and recover confidently? A focused usability study around one daily planning task is the next step before expanding the scope.']
+    "title": "Personal Jarvis",
+    "category": "SOFTWARE / VOICE-FIRST PRODUCT",
+    "deck": "A local Windows assistant that listens naturally and works with your files, apps and calendar.",
+    "role": "Product design, interaction design & implementation",
+    "type": "Independent working application",
+    "flow": [
+        "Speak naturally",
+        "Local model + tools",
+        "Review consequential actions",
+        "Hear the result"
     ],
-    stack: 'HTML · CSS · JavaScript · Browser speech APIs · Local storage',
-    status: 'Working interface prototype with simulated planning and actions. Calendar integrations, cross-app execution, and a live AI assistant are future work. The case study documents the concept and design decisions; it does not claim completed user research.',
-    links: [['Explore the case study', 'experiments/jarvis/case-study.html'], ['Try the prototype', 'experiments/jarvis/'], ['Source on GitHub', 'https://github.com/Saneitt/personal-jarvis']]
-  },
+    "sections": [
+        [
+            "From prototype to a working assistant",
+            "I carried the original voice-first design into an installable Windows application. It runs a local Qwen3.5 model through Ollama, transcribes with faster-whisper and speaks with Kokoro. Conversation, speech and system operations stay on the PC."
+        ],
+        [
+            "Keep the conversation moving",
+            "The wake phrase is needed from standby; natural follow-ups remain open after a reply. Short sentences are grouped and audio is prepared ahead of playback to avoid clipped endings and gaps. A voice-only preview helped distinguish model quality from playback problems during testing."
+        ],
+        [
+            "Useful work with visible control",
+            "Jarvis can work with files, open apps, inspect the computer, control media, run approved PowerShell, remember explicit preferences and manage local events and reminders. A month calendar and day agenda expose the same persistent data the assistant can read and change."
+        ],
+        [
+            "Designing for the hardware",
+            "The tested configuration uses 16 GB RAM and a 4 GB RTX 3050. A language-only Qwen3.5 4B profile leaves more GPU memory for conversation. Setup offers smaller and larger local models so the tools and interface can stay useful when the hardware changes."
+        ],
+        [
+            "A complete Windows handoff",
+            "The native window has its own icon and Start menu entry. Closing it shuts down the backend and model runners, with kernel ownership protecting against orphaned services after a crash. The download includes setup scripts and a model picker, rather than requiring developer tooling."
+        ],
+        [
+            "What has been checked",
+            "Automated checks cover calendar persistence and alerts, file operations, approval handling, speech chunking, interruption and playback. The native UI was exercised for calendar editing and actual voice output. These checks and my listening feedback are not a substitute for a broader usability study."
+        ]
+    ],
+    "stack": "Python · FastAPI · SQLite · Ollama / Qwen3.5 · faster-whisper · Kokoro / Piper · Web Audio · JavaScript · C# / WebView2",
+    "status": "Working local Windows application. The 4B profile is tested on the development laptop; other hardware tiers are setup options that need their own validation. Calendar data is local; Google/Outlook sync, external email, autonomous visual GUI control and broader usability testing remain future work. Developed with AI assistance.",
+    "links": [
+        [
+            "See the build and design decisions",
+            "experiments/jarvis/case-study.html"
+        ],
+        [
+            "Download the Windows app",
+            "https://github.com/Saneitt/personal-jarvis/releases/latest"
+        ],
+        [
+            "Source and setup guide",
+            "https://github.com/Saneitt/personal-jarvis"
+        ],
+        [
+            "Explore the original design prototype",
+            "experiments/jarvis/"
+        ]
+    ]
+},
   interview: {
     title: 'InterviewEye', category: 'SOFTWARE / APPLIED AI',
     deck: 'An adaptive interview practice loop, from a resume and job description to spoken questions and a session review.',

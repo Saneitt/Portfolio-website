@@ -22,7 +22,7 @@ Then open http://127.0.0.1:4173. GitHub Pages serves the same files from `main` 
 - `theme-init.js`: applies the saved or system theme before the first paint.
 - `projects.js`: detailed project narratives, implementation notes, scope, and links.
 - `app.js`: theme controls, orbital canvas, shooting stars, scroll progress and reveals, discipline selector, project filters, native dialogs, keyboard index, sand playground, and clipboard feedback.
-- `assets/`: favicon and an actual Jarvis prototype screenshot.
+- `assets/`: favicon and a screenshot of the working local Jarvis application.
 - `experiments/jarvis/`: standalone interactive concept and its case study.
 - `docs/design-notes.md`: design reasoning and research references.
 
@@ -40,8 +40,8 @@ AI is a visible part of the personal building process: exploring implementation 
 
 ## Content and provenance
 
-Project descriptions were checked against the linked repositories. InterviewEye's delivery signals and EcoSpectre's environmental assessments are described as experimental. QuantumQA is a reviewable generation workflow; generated scripts are not presented as validated production tests. Jarvis is an AI-assisted interface prototype with simulated actions, not a deployed autonomous assistant. Its case study includes the scope and next research steps.
+Project descriptions were checked against the linked repositories. InterviewEye's delivery signals and EcoSpectre's environmental assessments are described as experimental. QuantumQA is a reviewable generation workflow; generated scripts are not presented as validated production tests. Jarvis is a working local Windows voice assistant built with AI assistance. Its case study covers the implementation, hardware constraints, local calendar, setup and verified behavior, alongside the remaining usability and integration work.
 
-The project-card diagrams are interface illustrations, labeled as such. The Jarvis image shows the existing prototype. Vignette uses its actual YouTube thumbnail. Writing, direction, lead performance, cinematography, editing, and planning credits were confirmed by Sannith. The VTOL note accurately describes a partially working experiment using salvaged RC plane parts. Photography is a short personal note with a link, rather than an invented gallery.
+The project-card diagrams are interface illustrations, labeled as such. The Jarvis image shows the working Windows app with a temporary sample calendar entry. The original interaction prototype remains available as a clearly labeled historical demo. Vignette uses its actual YouTube thumbnail. Writing, direction, lead performance, cinematography, editing, and planning credits were confirmed by Sannith. The VTOL note accurately describes a partially working experiment using salvaged RC plane parts. Photography is a short personal note with a link, rather than an invented gallery.
 
 Portfolio implementation developed with AI assistance from Sannith's direction and reviewed project material. No third-party brand designs or logos are reproduced.
